@@ -33,8 +33,9 @@ public class PréProcessamento {
          BufferedReader consumoin = null ;
          BufferedReader pessoain = null;
          BufferedWriter processado = null;
+        String cons_celular = "0",cons_telfixo = "0",cons_shows = "0",cons_dvd = "0",cons_internet = "0";
          
-         String linhapessoa,linhaconsumo;
+        String linhapessoa,linhaconsumo;
        
         FileReader consumo = null;
         try {
@@ -76,10 +77,10 @@ public class PréProcessamento {
                  splitlinhaconsumo[4] + splitlinhaconsumo[21]  ;
                  String con_domclId = splitlinhaconsumo[1] + splitlinhaconsumo[2] + splitlinhaconsumo[3] + splitlinhaconsumo[4];
                 
-                 String cons_celular,cons_telfixo,cons_shows,cons_dvd,cons_internet = "0";
+                
                  
                  
-                 if (pessoaId == con_pessoaId)
+                 if (pessoaId.equals(con_pessoaId))
                  {
                     if (((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "801"))|
                        ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "1101"))|
@@ -113,15 +114,17 @@ public class PréProcessamento {
                        ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "504"))|
                        ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "505"))|
                        ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "506"))|
-                        ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "801"))|
+                       ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "801"))|
                        ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "901"))|
                        ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "1001"))|
                        ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "1301"))|
                        ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "1401")))                      
                        {cons_internet = "1";}
+                     
+                     String linhasaida = linhapessoa + "," + linhaconsumo + "," + cons_celular + cons_telfixo+ cons_shows + cons_dvd + cons_internet;
                     
-                }
-                 
+                }else{
+                { 
                 if (domclId == con_domclId)
                  {
                     if (((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "801"))|
@@ -162,18 +165,20 @@ public class PréProcessamento {
                        ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "1301"))|
                        ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "1401")))                      
                        {cons_internet = "1";}
+                     
+                     String linhasaida = linhapessoa + "," + linhaconsumo + "," + cons_celular + cons_telfixo+ cons_shows + cons_dvd + cons_internet;
+                 }
                     
                 }
                  
-                 
-                 
-                 
-                
                 }
+              }
+                
+                
             
             }
         } catch (IOException ex) {
-            Logger.getLogger(PréProcessamento.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PréProcessamento.class.getName()).log(Level.SEVERE+ null+ ex);
         }
         
         
