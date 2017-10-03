@@ -58,11 +58,8 @@ public class PréProcessamento {
             Logger.getLogger(PréProcessamento.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        try {
-            processado.write("tipo_reg,cod_uf,num_seq,num_dv,cod_domc,num_ext_renda,fator_expansao1,fator_expansao2,perd_cod_p_visit_realm_em,qtd_morador_domc,qtd_uc,qtd_familia,cod_tipo_domc,qtd_comd_serv_dormit,cod_abast_agua,qtd_banheiros,cod_cond_ocup,imput_qtd_comodos,imput_qtd_banheiros,renda_bruta_monetaria,renda_total,estrada_grande_1,num_uc,num_inf,cod_rel_pess_refe_uc,num_familia,cod_cond_familia,cod_cond_presenca,dat_ano_nasc,idade_anos,cod_sexo,cod_sabe_ler,cod_freq_escola,cod_serie_freq,cod_nivel_instr,cod_concluiu_curso,anos_de_estudo,cod_cor_raca,cod_tem_cartao,cod_ehtitular_conta,num_comprimento,num_altura,num_peso,num_peso_crianca,comprimento_imputado,altura_imputado,peso_imputado,renda_percapita,religiao,plano_saude,cod_cond_vida,val_rec_min_ali,cons_celular,cons_telfixo,cons_shows,cons_dvd,tem_internet");
-        } catch (IOException ex) {
-            Logger.getLogger(PréProcessamento.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        String dummies = "cons_celular,cons_telfixo,cons_shows,cons_dvd,tem_internet";
+       
         
         try {
             while ((linhapessoa = pessoain.readLine())!= null)
@@ -79,14 +76,94 @@ public class PréProcessamento {
                  splitlinhaconsumo[4] + splitlinhaconsumo[21]  ;
                  String con_domclId = splitlinhaconsumo[1] + splitlinhaconsumo[2] + splitlinhaconsumo[3] + splitlinhaconsumo[4];
                 
-                 String cons_celular,cons_telfixo,cons_shows,cons_dvd,tem_internet = "0";
+                 String cons_celular,cons_telfixo,cons_shows,cons_dvd,cons_internet = "0";
                  
                  
                  if (pessoaId == con_pessoaId)
                  {
+                    if (((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "801"))|
+                       ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "1101"))|
+                       ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "1301"))|
+                       ((splitlinhaconsumo[9] == "28") &&  (splitlinhaconsumo[10] == "2401"))|
+                       ((splitlinhaconsumo[9] == "28") &&  (splitlinhaconsumo[10] == "2402")))
+                       {cons_celular = "1";}
+                    
+                    if (((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "801"))|
+                       ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "901"))|
+                       ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "1101"))|
+                       ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "1401"))|
+                       ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "401"))|
+                       ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "501")))
+                       {cons_telfixo = "1";}
+                         
+                    if ((splitlinhaconsumo[9] == "28") &&  (splitlinhaconsumo[10] == "1101"))
+                    {
+                    cons_shows = "1";
+                    }
+                    
+                    if (((splitlinhaconsumo[9] == "13") &&  (splitlinhaconsumo[10] == "1701"))|
+                       ((splitlinhaconsumo[9] == "15") &&  (splitlinhaconsumo[10] == "2701"))|
+                       ((splitlinhaconsumo[9] == "28") &&  (splitlinhaconsumo[10] == "5701"))|
+                       ((splitlinhaconsumo[9] == "28") &&  (splitlinhaconsumo[10] == "2601"))|
+                       ((splitlinhaconsumo[9] == "28") &&  (splitlinhaconsumo[10] == "901")))                      
+                       {cons_dvd = "1";}
+                    
+                     if (((splitlinhaconsumo[9] == "6") && (splitlinhaconsumo[10] == "502"))|
+                       ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "503"))|
+                       ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "504"))|
+                       ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "505"))|
+                       ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "506"))|
+                        ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "801"))|
+                       ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "901"))|
+                       ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "1001"))|
+                       ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "1301"))|
+                       ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "1401")))                      
+                       {cons_internet = "1";}
+                    
+                }
                  
-                 
-                 }
+                if (domclId == con_domclId)
+                 {
+                    if (((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "801"))|
+                       ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "1101"))|
+                       ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "1301"))|
+                       ((splitlinhaconsumo[9] == "28") &&  (splitlinhaconsumo[10] == "2401"))|
+                       ((splitlinhaconsumo[9] == "28") &&  (splitlinhaconsumo[10] == "2402")))
+                       {cons_celular = "1";}
+                    
+                    if (((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "801"))|
+                       ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "901"))|
+                       ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "1101"))|
+                       ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "1401"))|
+                       ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "401"))|
+                       ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "501")))
+                       {cons_telfixo = "1";}
+                         
+                    if ((splitlinhaconsumo[9] == "28") &&  (splitlinhaconsumo[10] == "1101"))
+                    {
+                    cons_shows = "1";
+                    }
+                    
+                    if (((splitlinhaconsumo[9] == "13") &&  (splitlinhaconsumo[10] == "1701"))|
+                       ((splitlinhaconsumo[9] == "15") &&  (splitlinhaconsumo[10] == "2701"))|
+                       ((splitlinhaconsumo[9] == "28") &&  (splitlinhaconsumo[10] == "5701"))|
+                       ((splitlinhaconsumo[9] == "28") &&  (splitlinhaconsumo[10] == "2601"))|
+                       ((splitlinhaconsumo[9] == "28") &&  (splitlinhaconsumo[10] == "901")))                      
+                       {cons_dvd = "1";}
+                    
+                     if (((splitlinhaconsumo[9] == "6") && (splitlinhaconsumo[10] == "502"))|
+                       ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "503"))|
+                       ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "504"))|
+                       ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "505"))|
+                       ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "506"))|
+                        ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "801"))|
+                       ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "901"))|
+                       ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "1001"))|
+                       ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "1301"))|
+                       ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "1401")))                      
+                       {cons_internet = "1";}
+                    
+                }
                  
                  
                  
