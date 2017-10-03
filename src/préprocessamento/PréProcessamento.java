@@ -15,7 +15,10 @@ public class PréProcessamento {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        int i;
         // TODO code application logic here
+        for(i=0; i<10; i++)
+        { }
     }
     
 }
