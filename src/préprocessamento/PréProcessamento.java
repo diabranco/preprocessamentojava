@@ -32,9 +32,12 @@ public class PréProcessamento {
         
          BufferedReader consumoin = null ;
          BufferedReader pessoain = null;
-         BufferedWriter processado = null;
-        String cons_celular = "0",cons_telfixo = "0",cons_shows = "0",cons_dvd = "0",cons_internet = "0";
          
+         
+        BufferedWriter processado = null;
+        String cons_celular = "0",cons_telfixo = "0",cons_shows = "0",cons_dvd = "0",cons_internet = "0", cons_cinema = "0";
+        String val_cons_celular = "0",val_cons_telfixo = "0",val_cons_shows = "0",val_cons_dvd = "0",val_cons_internet = "0", val_cons_cinema = "0";
+        
         String linhapessoa,linhaconsumo;
        
         FileReader consumo = null;
@@ -50,8 +53,11 @@ public class PréProcessamento {
             Logger.getLogger(PréProcessamento.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+        
+        
         consumoin = new BufferedReader(consumo);
         pessoain = new BufferedReader(pessoas);
+        
         
         try {
             processado = new BufferedWriter(new  FileWriter("D:/BasesStataFINAL/processado.csv"));
@@ -59,8 +65,8 @@ public class PréProcessamento {
             Logger.getLogger(PréProcessamento.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        String dummies = "cons_celular,cons_telfixo,cons_shows,cons_dvd,tem_internet";
-       
+        String dummies = "cons_celular. val_cons_celular ,cons_telfixo, val_cons_telfixo,cons_shows, val_cons_shows,cons_dvd, val_cons_dvd,cons_internet, val_cons_internet, cons_cinema, val_cons_cinema";
+        int i = 0;
         
         try {
             while ((linhapessoa = pessoain.readLine())!= null)
@@ -87,7 +93,7 @@ public class PréProcessamento {
                        ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "1301"))|
                        ((splitlinhaconsumo[9] == "28") &&  (splitlinhaconsumo[10] == "2401"))|
                        ((splitlinhaconsumo[9] == "28") &&  (splitlinhaconsumo[10] == "2402")))
-                       {cons_celular = "1";}
+                       {cons_celular = "1"; val_cons_celular = splitlinhaconsumo[11];}
                     
                     if (((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "801"))|
                        ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "901"))|
@@ -95,11 +101,11 @@ public class PréProcessamento {
                        ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "1401"))|
                        ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "401"))|
                        ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "501")))
-                       {cons_telfixo = "1";}
+                       {cons_telfixo = "1"; val_cons_telfixo = splitlinhaconsumo[11];}
                          
                     if ((splitlinhaconsumo[9] == "28") &&  (splitlinhaconsumo[10] == "1101"))
                     {
-                    cons_shows = "1";
+                    cons_shows = "1"; val_cons_shows = splitlinhaconsumo[11];
                     }
                     
                     if (((splitlinhaconsumo[9] == "13") &&  (splitlinhaconsumo[10] == "1701"))|
@@ -107,7 +113,7 @@ public class PréProcessamento {
                        ((splitlinhaconsumo[9] == "28") &&  (splitlinhaconsumo[10] == "5701"))|
                        ((splitlinhaconsumo[9] == "28") &&  (splitlinhaconsumo[10] == "2601"))|
                        ((splitlinhaconsumo[9] == "28") &&  (splitlinhaconsumo[10] == "901")))                      
-                       {cons_dvd = "1";}
+                       {cons_dvd = "1"; val_cons_dvd = splitlinhaconsumo[11]; }
                     
                      if (((splitlinhaconsumo[9] == "6") && (splitlinhaconsumo[10] == "502"))|
                        ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "503"))|
@@ -119,10 +125,20 @@ public class PréProcessamento {
                        ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "1001"))|
                        ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "1301"))|
                        ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "1401")))                      
-                       {cons_internet = "1";}
+                       {cons_internet = "1"; val_cons_internet = splitlinhaconsumo[11];  }
                      
-                     String linhasaida = linhapessoa + "," + linhaconsumo + "," + cons_celular + cons_telfixo+ cons_shows + cons_dvd + cons_internet;
+                     if ((splitlinhaconsumo[9] == "28") && (splitlinhaconsumo[10] == "101"))
+                     {cons_cinema = "1"; val_cons_cinema = splitlinhaconsumo[11];  }
+                     
+                     
                     
+                     
+                     String linhasaida = linhapessoa + ","  + cons_celular + "," + val_cons_celular + "," + cons_telfixo+ "," + val_cons_telfixo +
+                     "," + cons_shows + "," + val_cons_shows + "," +  cons_dvd + "," + val_cons_dvd + "," + cons_internet + "," + val_cons_internet
+                             + "," + cons_cinema + "," + val_cons_cinema;
+                    
+                     processado.write(linhasaida);
+                     
                 }else{
                 { 
                 if (domclId == con_domclId)
@@ -132,7 +148,7 @@ public class PréProcessamento {
                        ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "1301"))|
                        ((splitlinhaconsumo[9] == "28") &&  (splitlinhaconsumo[10] == "2401"))|
                        ((splitlinhaconsumo[9] == "28") &&  (splitlinhaconsumo[10] == "2402")))
-                       {cons_celular = "1";}
+                       {cons_celular = "1"; val_cons_celular = splitlinhaconsumo[11];}
                     
                     if (((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "801"))|
                        ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "901"))|
@@ -140,11 +156,11 @@ public class PréProcessamento {
                        ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "1401"))|
                        ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "401"))|
                        ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "501")))
-                       {cons_telfixo = "1";}
+                       {cons_telfixo = "1"; val_cons_telfixo = splitlinhaconsumo[11];}
                          
                     if ((splitlinhaconsumo[9] == "28") &&  (splitlinhaconsumo[10] == "1101"))
                     {
-                    cons_shows = "1";
+                    cons_shows = "1"; val_cons_shows = splitlinhaconsumo[11];
                     }
                     
                     if (((splitlinhaconsumo[9] == "13") &&  (splitlinhaconsumo[10] == "1701"))|
@@ -152,19 +168,22 @@ public class PréProcessamento {
                        ((splitlinhaconsumo[9] == "28") &&  (splitlinhaconsumo[10] == "5701"))|
                        ((splitlinhaconsumo[9] == "28") &&  (splitlinhaconsumo[10] == "2601"))|
                        ((splitlinhaconsumo[9] == "28") &&  (splitlinhaconsumo[10] == "901")))                      
-                       {cons_dvd = "1";}
+                       {cons_dvd = "1"; val_cons_dvd = splitlinhaconsumo[11]; }
                     
                      if (((splitlinhaconsumo[9] == "6") && (splitlinhaconsumo[10] == "502"))|
                        ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "503"))|
                        ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "504"))|
                        ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "505"))|
                        ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "506"))|
-                        ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "801"))|
+                       ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "801"))|
                        ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "901"))|
                        ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "1001"))|
                        ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "1301"))|
                        ((splitlinhaconsumo[9] == "6") &&  (splitlinhaconsumo[10] == "1401")))                      
-                       {cons_internet = "1";}
+                       {cons_internet = "1"; val_cons_internet = splitlinhaconsumo[11];  }
+                     
+                     if ((splitlinhaconsumo[9] == "28") && (splitlinhaconsumo[10] == "101"))
+                     {cons_cinema = "1"; val_cons_cinema = splitlinhaconsumo[11];  }
                      
                      String linhasaida = linhapessoa + "," + linhaconsumo + "," + cons_celular + cons_telfixo+ cons_shows + cons_dvd + cons_internet;
                  }
@@ -174,11 +193,11 @@ public class PréProcessamento {
                 }
               }
                 
-                
+            i++; 
             
             }
         } catch (IOException ex) {
-            Logger.getLogger(PréProcessamento.class.getName()).log(Level.SEVERE+ null+ ex);
+            
         }
         
         
